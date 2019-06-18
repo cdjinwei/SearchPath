@@ -153,7 +153,8 @@ class BreadthFirstSearch extends SearchBase{
         let searchQueue: Array<Node> = [start];
         let searchRecord = {}
         let costRecord = {}
-        let searchHistory: Array<Array<PriorityNode>> = [];
+        let visitHistory: Array<PriorityNode> = [];
+        
         searchRecord[start.toString()] = true;
         while(searchQueue.length){
             let current = searchQueue.shift();
@@ -165,14 +166,14 @@ class BreadthFirstSearch extends SearchBase{
                 if(!searchRecord[node.toString()]){
                     searchQueue.push(node);
                     searchRecord[node.toString()] = current;
+                    visitHistory.push(new PriorityNode(node, 0));
                 }
             }
-            searchHistory.push(this._genHistory(searchRecord, costRecord));
         }
 
         return {
             path: this._genPath(end, searchRecord),
-            history: searchHistory
+            visitHistory: visitHistory
         }
     }
 }
@@ -186,7 +187,7 @@ class DijkstraSearch extends SearchBase{
         let searchQueue: PriorityQueue = new PriorityQueue();
         let searchRecord = {};
         let costRecord = {};
-        let searchHistory: Array<Array<PriorityNode>> = [];
+        let visitHistory: Array<PriorityNode> = [];
 
         searchQueue.put(start, 0);
         searchRecord[start.toString()] = true;
@@ -204,14 +205,14 @@ class DijkstraSearch extends SearchBase{
                     searchRecord[node.toString()] = current.getNode();
                     costRecord[node.toString()] = newCost;
                     searchQueue.put(node, newCost);
+                    visitHistory.push(new PriorityNode(node, 0));
                 }
             }
-            searchHistory.push(this._genHistory(searchRecord, costRecord));
         }
 
         return {
             path: this._genPath(end, searchRecord),
-            history: searchHistory
+            visitHistory: visitHistory
         }
     }
 }
@@ -225,8 +226,7 @@ class BestFirstSearch extends SearchBase{
         let searchQueue: PriorityQueue = new PriorityQueue();
         let searchRecord = {};
         let costRecord = {};
-        let searchHistory: Array<Array<PriorityNode>> = [];
-
+        let visitHistory: Array<PriorityNode> = [];
         searchQueue.put(start, this.heuristics(start, end));
         searchRecord[start.toString()] = true;
         while(searchQueue.length){
@@ -239,13 +239,13 @@ class BestFirstSearch extends SearchBase{
                 if(!searchRecord[node.toString()]){
                     searchRecord[node.toString()] = current.getNode();
                     searchQueue.put(node, this.heuristics(node, end));
+                    visitHistory.push(new PriorityNode(node, 0));
                 }
             }
-            searchHistory.push(this._genHistory(searchRecord, costRecord));
         }
         return {
             path: this._genPath(end, searchRecord),
-            history: searchHistory
+            visitHistory: visitHistory
         }
     }
 }
@@ -259,7 +259,7 @@ class AStarSearch extends SearchBase{
         let searchQueue: PriorityQueue = new PriorityQueue();
         let searchRecord = {};
         let costRecord = {};
-        let searchHistory: Array<Array<PriorityNode>> = [];
+        let visitHistory: Array<PriorityNode> = [];
 
         searchRecord[start.toString()] = true;
         costRecord[start.toString()] = 0;
@@ -276,14 +276,14 @@ class AStarSearch extends SearchBase{
                     costRecord[node.toString()] = newCost;
                     searchRecord[node.toString()] = current.getNode();
                     searchQueue.put(node, newCost + this.heuristics(node, end));
+                    visitHistory.push(new PriorityNode(node, 0));
                 }
             }
-            searchHistory.push(this._genHistory(searchRecord, costRecord));
         }
         
         return {
             path: this._genPath(end, searchRecord),
-            history: searchHistory
+            visitHistory: visitHistory
         }
     }
 }

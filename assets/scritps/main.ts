@@ -116,15 +116,18 @@ export default class NewClass extends cc.Component {
 
     showPathResult(result){
         let path: Array<Node> = result.path;
-        let history: Array<Array<PriorityNode>> = result.history;
+        let visit: Array<PriorityNode> = result.visitHistory;
+        console.log(visit);
         let _timer = setInterval(() => {
-            if(history.length){
-                let _history = history.shift();
-                for(let pnode of _history){
-                    let node = this.node_arr[pnode.node.y][pnode.node.x];
-                    node.color = cc.Color.GRAY;
-                    node.getChildByName('priority').getComponent(cc.Label).string = pnode.priority.toString();
-                }
+            if(visit.length){
+                let pnode = visit.shift();
+                let node = this.node_arr[pnode.node.y][pnode.node.x];
+                let c = node.color;
+                c.setB(c.getB() - 100);
+                c.setG(c.getG() - 100);
+                c.setR(c.getR() - 100);
+                node.color = c;
+                node.getChildByName('priority').getComponent(cc.Label).string = pnode.priority.toString();
             }else{
                 clearInterval(_timer);
                 for(let node of path){
