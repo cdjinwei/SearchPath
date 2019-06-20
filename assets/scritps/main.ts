@@ -49,6 +49,19 @@ export default class NewClass extends cc.Component {
     // onLoad () {}
 
     start() {
+        this.resetMap();
+        // this.createBFSMap();
+        // this.createDijkstraMap();
+        // this.createBestSearchMap();
+
+
+        // this.testBreadthFirstSearch();
+        // this.testDijkstraSearch();
+        // this.testBestFirstSearch();
+        // this.testAStarSearch();
+    }
+
+    resetMap(){
         this.map_arr = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 999, 999, 999, 999, 999, 999, 1],
@@ -74,18 +87,11 @@ export default class NewClass extends cc.Component {
                 this.node_arr[y][x] = square;
                 if(this.map_arr[y][x] == 999){
                     square.color = cc.Color.BLACK;
+                }else{
+                    square.color = cc.Color.WHITE;
                 }
             }
         }
-        // this.createBFSMap();
-        // this.createDijkstraMap();
-        // this.createBestSearchMap();
-
-
-        this.testBreadthFirstSearch();
-        // this.testDijkstraSearch();
-        // this.testBestFirstSearch();
-        // this.testAStarSearch();
     }
 
     testAStarSearch(){
