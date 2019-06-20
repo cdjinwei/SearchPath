@@ -98,6 +98,7 @@ class SearchBase{
 
     heuristics(start: Node, end: Node){
         return Math.abs(start.x - end.x) + Math.abs(start.y - end.y);
+        // return Math.pow(start.x - end.x, 2) + Math.pow(start.y - end.y, 2);
     }
 
     getNeighbors(node: Node){

@@ -82,50 +82,55 @@ export default class NewClass extends cc.Component {
         // this.createBestSearchMap();
 
 
-        // this.testBreadthFirstSearch();
+        this.testBreadthFirstSearch();
         // this.testDijkstraSearch();
         // this.testBestFirstSearch();
-        this.testAStarSearch();
+        // this.testAStarSearch();
     }
 
     testAStarSearch(){
         let astar = new AStarSearch(this.map_arr);
-        let result = astar.searchPath(new Node(6, 5), new Node(12, 0));
+        console.time('cost time: ');
+        let result = astar.searchPath(new Node(5, 5), new Node(12, 0));
+        console.timeEnd('cost time: ');
         this.showPathResult(result);
     }
 
     testBestFirstSearch(){
         let bfs = new BestFirstSearch(this.map_arr);
+        console.time('cost time: ');
         let result = bfs.searchPath(new Node(5, 5), new Node(12, 0));
+        console.timeEnd('cost time: ');
         this.showPathResult(result);
     }
 
     testDijkstraSearch(){
         let dijkstra = new DijkstraSearch(this.map_arr);
-
+        console.time('cost time: ');
         let result = dijkstra.searchPath(new Node(5, 5), new Node(12, 0));
+        console.timeEnd('cost time: ');
         this.showPathResult(result);
     }
 
     testBreadthFirstSearch(){
         let bfs = new BreadthFirstSearch(this.map_arr);
-        
+        console.time('cost time: ');
         let result = bfs.searchPath(new Node(5,5), new Node(12, 0));
+        console.timeEnd('cost time: ');
         this.showPathResult(result);
     }
 
     showPathResult(result){
         let path: Array<Node> = result.path;
         let visit: Array<PriorityNode> = result.visitHistory;
-        console.log(visit);
         let _timer = setInterval(() => {
             if(visit.length){
                 let pnode = visit.shift();
                 let node = this.node_arr[pnode.node.y][pnode.node.x];
                 let c = node.color;
-                c.setB(c.getB() - 100);
-                c.setG(c.getG() - 100);
-                c.setR(c.getR() - 100);
+                c.setB(c.getB() - 50);
+                c.setG(c.getG() - 50);
+                c.setR(c.getR() - 50);
                 node.color = c;
                 node.getChildByName('priority').getComponent(cc.Label).string = pnode.priority.toString();
             }else{
@@ -134,7 +139,7 @@ export default class NewClass extends cc.Component {
                     this.node_arr[node.y][node.x].color = cc.Color.GREEN;
                 }
             }
-        }, 100);
+        }, 30);
     }
 
     createBestSearchMap(){
