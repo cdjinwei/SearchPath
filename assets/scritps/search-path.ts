@@ -174,7 +174,8 @@ class BreadthFirstSearch extends SearchBase{
 
         return {
             path: this._genPath(end, searchRecord),
-            visitHistory: visitHistory
+            visitHistory: visitHistory,
+            searchRecord: searchRecord
         }
     }
 }
@@ -202,7 +203,7 @@ class DijkstraSearch extends SearchBase{
             let neighbors = this.getNeighbors(current.node);
             for(let node of neighbors){
                 let newCost = costRecord[current.node.toString()] + node.cost;
-                if(costRecord[node.toString()] === undefined || newCost < costRecord[node.toString()]){
+                if(costRecord[node.toString()] === undefined){ // || newCost < costRecord[node.toString()]
                     searchRecord[node.toString()] = current.getNode();
                     costRecord[node.toString()] = newCost;
                     searchQueue.put(node, newCost);
@@ -213,7 +214,8 @@ class DijkstraSearch extends SearchBase{
 
         return {
             path: this._genPath(end, searchRecord),
-            visitHistory: visitHistory
+            visitHistory: visitHistory,
+            searchRecord: searchRecord
         }
     }
 }
@@ -246,7 +248,8 @@ class BestFirstSearch extends SearchBase{
         }
         return {
             path: this._genPath(end, searchRecord),
-            visitHistory: visitHistory
+            visitHistory: visitHistory,
+            searchRecord: searchRecord
         }
     }
 }
@@ -273,7 +276,7 @@ class AStarSearch extends SearchBase{
             let neighbors = this.getNeighbors(current.getNode());
             for(let node of neighbors){
                 let newCost = node.cost + costRecord[current.getNode().toString()];
-                if(costRecord[node.toString()] === undefined || newCost < costRecord[node.toString()]){
+                if(costRecord[node.toString()] === undefined){ // || newCost < costRecord[node.toString()]
                     costRecord[node.toString()] = newCost;
                     searchRecord[node.toString()] = current.getNode();
                     searchQueue.put(node, newCost + this.heuristics(node, end));
@@ -284,7 +287,8 @@ class AStarSearch extends SearchBase{
         
         return {
             path: this._genPath(end, searchRecord),
-            visitHistory: visitHistory
+            visitHistory: visitHistory,
+            searchRecord: searchRecord
         }
     }
 }
